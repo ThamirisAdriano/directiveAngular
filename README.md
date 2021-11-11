@@ -309,3 +309,77 @@ constructor(
 
 }
 ```
+## Diretivas customizadas - HostListener e HostBinding
+
+### HostListener - escuta um evento
+
+```jsx
+@HostListener('mouseenter') onMouseOver(){
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      'background-color',
+      'blue'
+    );
+  }
+
+  @HostListener('mouseleave') onMouseLeave(){
+    this.renderer.setStyle(
+      this.elementRef.nativeElement,
+      'background-color',
+      'white'
+    );
+  }
+```
+
+### HostBinding - permite que seja feita a ligação (associação) de um determinado atributo na diretiva para determinado atributo no HTML.
+
+```jsx
+@HostListener('mouseenter') onMouseOver(){
+    this.backgroundColor = 'blue';
+  }
+
+  @HostListener('mouseleave') onMouseLeave(){
+    this.backgroundColor = 'white';
+  }
+
+  @HostBinding('style.backgroundColor') backgroundColor: string | undefined;
+```
+
+## Input e Property Binding - diretivas customizadas
+
+```jsx
+@HostListener('mouseenter') onMouseOver(){
+    this.backgroundColor = this.highlightColor;
+  }
+
+  @HostListener('mouseleave') onMouseLeave(){
+    this.backgroundColor = this.defaultColor;
+  }
+
+  @HostBinding('style.backgroundColor') backgroundColor: string | undefined;
+
+  @Input() defaultColor: string = 'white';
+  @Input() highlightColor: string = 'yellow';
+
+  constructor() { }
+
+  ngOnInit(){
+    this.backgroundColor = this.defaultColor;
+  }
+
+}
+```
+
+## Diretiva de estrutura customizada - ngElse
+
+template - vem do conceito de web components - [ngIf] não é um atributo desse template
+
+[ngIf] colchete indica input property
+
+NgElse - recebe uma condição boolean
+
+método set - typeScript (para escutar o input toda vez que ele for modificado)
+
+TemplateRef → faz referência ao template
+
+ViewContainerRef →referência ao container da view (conteúdo a ser reinderizado)
